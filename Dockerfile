@@ -1,6 +1,12 @@
-FROM bzcode/nodejs16
-WORKDIR /usr/src/
-COPY  node-devops-course/ .
-RUN npm install
-EXPOSE 4000
-CMD ["node", "server.js"]
+# taked from https://github.com/alpine-docker/git/blob/master/Dockerfile
+FROM alpine
+
+RUN apk fix && \
+    apk --no-cache --update add git git-lfs gpg less openssh patch && \
+    git lfs install
+
+VOLUME /git
+WORKDIR /git
+
+ENTRYPOINT ["git"]
+CMD ["--help"]
